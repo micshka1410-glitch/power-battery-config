@@ -9,7 +9,7 @@
 
 <div style="max-width: 600px; margin: auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
   
-  <div style="position: relative; height: 220px; background: url('https://raw.githubusercontent.com/mischka1410-glitch/power-battery-config/main/photo_2026-03-12_12-18-23.jpg') center/cover no-repeat; display: flex; align-items: flex-end;">
+  <div style="position: relative; height: 220px; background: url('photo_2026-03-12_12-18-23.jpg') center/cover no-repeat; display: flex; align-items: flex-end;">
     <div style="width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: white; padding: 1.5rem 2rem; text-align: center;">
       <h1 style="font-size: 1.8rem; margin: 0; font-weight: 600;">PowerBattery LiFePO₄</h1>
       <p style="font-size: 0.9rem; margin: 5px 0 0; opacity: 0.9;">Збірки в нержавіючому корпусі з JK BMS</p>
@@ -17,6 +17,7 @@
   </div>
 
   <div style="padding: 1.5rem 2rem;">
+    
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
       <div>
         <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Напруга</label>
@@ -55,11 +56,11 @@
         </div>
         <div>
             <p style="font-size: 0.7rem; color: #64748b; margin: 0; text-transform: uppercase;">Вага</p>
-            <p id="spec-weight" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">~56 кг</p>
+            <p id="spec-weight" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">~53 кг</p>
         </div>
         <div style="grid-column: span 2;">
             <p style="font-size: 0.7rem; color: #64748b; margin: 0; text-transform: uppercase;">Габарити (ДхШхВ)</p>
-            <p id="spec-dims" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">650 x 220 x 280 мм</p>
+            <p id="spec-dims" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">584 x 165 x 250 мм</p>
         </div>
       </div>
     </div>
@@ -78,14 +79,14 @@
       </a>
 
       <button onclick="copyToClipboard()" style="grid-column: span 2; padding: 0.9rem; background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-weight: 600;">
-        📋 Скопіювати замовлення для чату
+        📋 Скопіювати замовлення
       </button>
     </div>
   </div>
 </div>
 
 <div id="toast" style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 0.9rem; z-index: 1000; box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
-    Текст скопійовано!
+    Скопійовано!
 </div>
 
 <script>
@@ -105,7 +106,6 @@ function setCapacity(c) { selectedCapacity = c; updateUI(); }
 function setDisplay(bool) { hasDisplay = bool; updateUI(); }
 
 function updateUI() {
-  // Напруга
   [12, 24].forEach(v => {
     const btn = document.getElementById(`btn-${v}v`);
     btn.style.border = v === selectedVoltage ? '2px solid #1e40af' : '1px solid #e2e8f0';
@@ -113,7 +113,6 @@ function updateUI() {
     btn.style.color = v === selectedVoltage ? '#1e40af' : '#1e293b';
   });
 
-  // Ємність
   [280, 314].forEach(c => {
     const btn = document.getElementById(`btn-${c}ah`);
     btn.style.border = c === selectedCapacity ? '2px solid #1e40af' : '1px solid #e2e8f0';
@@ -121,7 +120,6 @@ function updateUI() {
     btn.style.color = c === selectedCapacity ? '#1e40af' : '#1e293b';
   });
 
-  // Дисплей кнопки
   document.getElementById('btn-disp-yes').style.border = hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
   document.getElementById('btn-disp-yes').style.background = hasDisplay ? '#eff6ff' : 'white';
   document.getElementById('btn-disp-no').style.border = !hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
@@ -139,9 +137,8 @@ function updateUI() {
 
 function copyToClipboard() {
   const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
-  const displayInfo = hasDisplay ? "з дисплеєм" : "без дисплея";
-  const text = `Вітаю! Мене цікавить: ${data.title}, ${displayInfo}. Енергія: ${data.energy}. Вага: ${data.weight}.`;
-  
+  const disp = hasDisplay ? "з дисплеєм" : "без дисплея";
+  const text = `Вітаю! Мене цікавить: ${data.title}, ${disp}. Енергія: ${data.energy}. Вага: ${data.weight}.`;
   navigator.clipboard.writeText(text).then(() => {
     const toast = document.getElementById('toast');
     toast.style.display = 'block';
@@ -151,6 +148,5 @@ function copyToClipboard() {
 
 updateUI();
 </script>
-
 </body>
 </html>
