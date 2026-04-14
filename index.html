@@ -31,6 +31,18 @@
             max-height: 90vh;
             border-radius: 8px;
         }
+        /* Стиль для фото-клеми в кнопці */
+        .terminal-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 20px; background: #f4f7fa; font-family: sans-serif;">
@@ -111,11 +123,15 @@
         <div>
             <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Тип клеми</label>
             <div style="display: flex; gap: 0.4rem;">
-                <button onclick="setTerm('Кільце')" style="flex: 1; padding: 0.4rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; flex-direction: column; align-items: center;" id="btn-term-ring">
-                    <span style="font-size: 1rem;">⭕</span><span style="font-size: 0.65rem;">Кільце</span>
+                <button onclick="setTerm('Кільце')" style="flex: 1; padding: 0.5rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: start;" id="btn-term-ring">
+                    <div class="terminal-thumb">
+                        <img src="https://raw.githubusercontent.com/mischka1410-glitch/power-battery-config/main/photo_SC25_6.png" style="max-width: 80%; max-height: 80%;">
+                    </div>
+                    <span style="font-size: 0.8rem; color: #1e293b;">Кільце</span>
                 </button>
-                <button onclick="setTerm('Штифт')" style="flex: 1; padding: 0.4rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; flex-direction: column; align-items: center;" id="btn-term-pin">
-                    <span style="font-size: 1rem;">📍</span><span style="font-size: 0.65rem;">Штифт</span>
+                <button onclick="setTerm('Штифт')" style="flex: 1; padding: 0.5rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: start;" id="btn-term-pin">
+                    <div class="terminal-thumb" style="font-size: 1.2rem;">📍</div>
+                    <span style="font-size: 0.8rem; color: #1e293b;">Штифт</span>
                 </button>
             </div>
         </div>
@@ -124,7 +140,7 @@
     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem;">
       <div style="text-align: center; margin-bottom: 1rem;">
         <h2 id="product-title" style="font-size: 1.4rem; margin: 0; color: #0f172a; font-weight: 700;">24V 280Ah 7.16кВт</h2>
-        <p id="product-status" style="margin: 0.3rem 0 0; color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Завантаження...</p>
+        <p id="product-status" style="margin: 0.3rem 0 0; color: #3b82f6; font-weight: 600; font-size: 0.85rem;">B1A8S20P | З дисплеєм</p>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; background: white; padding: 0.8rem; border-radius: 10px; border: 1px solid #e2e8f0;">
         <div><p style="font-size: 0.65rem; color: #64748b; margin: 0; text-transform: uppercase;">Енергія</p><p id="spec-energy" style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #1e293b;">-</p></div>
