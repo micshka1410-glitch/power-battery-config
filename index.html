@@ -1,5 +1,155 @@
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem;">
-  <a href="https://t.me/ВАШ_USERNAME" target="_blank" style="text-decoration: none;">
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerBattery Configurator</title>
+</head>
+<body style="margin: 0; padding: 20px; background: #f4f7fa; font-family: sans-serif;">
+
+<div style="max-width: 600px; margin: auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+  
+  <div style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: white; padding: 2.5rem 2rem; text-align: center;">
+    <h1 style="font-size: 2.2rem; margin: 0 0 0.5rem; font-weight: 600;">PowerBattery LiFePO₄</h1>
+    <p style="font-size: 1rem; margin: 0; opacity: 0.9;">Професійні рішення для енергонезалежності</p>
+  </div>
+
+  <div style="padding: 2rem;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+      <div>
+        <label style="display: block; font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase;">Напруга</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <button onclick="setVoltage(12)" style="flex: 1; padding: 0.8rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-12v">12V</button>
+          <button onclick="setVoltage(24)" style="flex: 1; padding: 0.8rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-24v">24V</button>
+        </div>
+      </div>
+      <div>
+        <label style="display: block; font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase;">Ємність</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <button onclick="setCapacity(280)" style="flex: 1; padding: 0.8rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-280ah">280 А·год</button>
+          <button onclick="setCapacity(314)" style="flex: 1; padding: 0.8rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-314ah">314 А·год</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div style="display: inline-flex; width: 80px; height: 110px; background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); border-radius: 10px; margin-bottom: 1rem; align-items: center; justify-content: center; color: white; flex-direction: column;">
+          <div id="voltage-display" style="font-size: 1.4rem; font-weight: 700;">24V</div>
+          <div id="capacity-icon-display" style="font-size: 0.9rem; opacity: 0.8;">280Ah</div>
+        </div>
+        <h2 id="product-title" style="font-size: 1.6rem; margin: 0; color: #0f172a; font-weight: 700;">24V 280Ah 7.16кВт</h2>
+        <p style="margin: 0.5rem 0 0; color: #10b981; font-weight: 600; font-size: 0.9rem;">Grade A+ Cells | JK BMS Active Balancer</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; background: white; padding: 1rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div>
+            <p style="font-size: 0.75rem; color: #64748b; margin: 0; text-transform: uppercase;">Енергія</p>
+            <p id="spec-energy" style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #1e293b;">7.16 кВт·год</p>
+        </div>
+        <div>
+            <p style="font-size: 0.75rem; color: #64748b; margin: 0; text-transform: uppercase;">Вага</p>
+            <p id="spec-weight" style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #1e293b;">~56 кг</p>
+        </div>
+        <div style="grid-column: span 2;">
+            <p style="font-size: 0.75rem; color: #64748b; margin: 0; text-transform: uppercase;">Габарити (ДхШхВ)</p>
+            <p id="spec-dims" style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #1e293b;">650 x 220 x 280 мм</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <button onclick="copyToClipboard()" style="padding: 1rem; background: #f1f5f9; color: #1e293b; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: 0.2s;">
+        📋 Копіювати конфіг
+      </button>
+      
+      <a href="https://www.etsy.com/shop/ВАШ_МАГАЗИН" target="_blank" style="text-decoration: none;">
+        <button style="width: 100%; padding: 1rem; background: #1e40af; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);">
+          💬 Зв'язатися
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="toast" style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 0.9rem; z-index: 1000; box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
+    Конфігурацію скопійовано для чату!
+</div>
+
+<script>
+let selectedVoltage = 24;
+let selectedCapacity = 280;
+
+const batteries = {
+  '24-280': {
+    energy: '7.16 кВт·год',
+    weight: '~56 кг',
+    dims: '650 x 220 x 280 мм',
+    title: '24V 280Ah 7.16кВт'
+  },
+  '24-314': {
+    energy: '8.04 кВт·год',
+    weight: '~62 кг',
+    dims: '650 x 220 x 280 мм',
+    title: '24V 314Ah 8.04кВт'
+  },
+  '12-280': {
+    energy: '3.58 кВт·год',
+    weight: '~28 кг',
+    dims: '350 x 220 x 280 мм',
+    title: '12V 280Ah 3.58кВт'
+  },
+  '12-314': {
+    energy: '4.02 кВт·год',
+    weight: '~32 кг',
+    dims: '350 x 220 x 280 мм',
+    title: '12V 314Ah 4.02кВт'
+  }
+};
+
+function setVoltage(v) { selectedVoltage = v; updateUI(); }
+function setCapacity(c) { selectedCapacity = c; updateUI(); }
+
+function updateUI() {
+  // Buttons
+  [12, 24].forEach(v => {
+    const btn = document.getElementById(`btn-${v}v`);
+    btn.style.border = v === selectedVoltage ? '2px solid #1e40af' : '1px solid #e2e8f0';
+    btn.style.background = v === selectedVoltage ? '#eff6ff' : 'white';
+    btn.style.color = v === selectedVoltage ? '#1e40af' : '#1e293b';
+  });
+
+  [280, 314].forEach(c => {
+    const btn = document.getElementById(`btn-${c}ah`);
+    btn.style.border = c === selectedCapacity ? '2px solid #1e40af' : '1px solid #e2e8f0';
+    btn.style.background = c === selectedCapacity ? '#eff6ff' : 'white';
+    btn.style.color = c === selectedCapacity ? '#1e40af' : '#1e293b';
+  });
+
+  // Content
+  const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
+  document.getElementById('voltage-display').textContent = selectedVoltage + 'V';
+  document.getElementById('capacity-icon-display').textContent = selectedCapacity + 'Ah';
+  document.getElementById('product-title').textContent = data.title;
+  document.getElementById('spec-energy').textContent = data.energy;
+  document.getElementById('spec-weight').textContent = data.weight;
+  document.getElementById('spec-dims').textContent = data.dims;
+}
+
+function copyToClipboard() {
+  const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
+  const text = `Вітаю! Мене цікавить збірка: ${data.title}. Енергія: ${data.energy}. JK BMS.`;
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 2500);
+  });
+}
+
+updateUI();
+</script>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem;">
+  <a href="https://t.me/Mischkas" target="_blank" style="text-decoration: none;">
     <button style="width: 100%; padding: 0.8rem; background: #229ED9; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
       ✈️ Telegram
     </button>
@@ -21,3 +171,5 @@
     </button>
   </a>
 </div>
+</body>
+</html>
