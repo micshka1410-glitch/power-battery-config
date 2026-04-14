@@ -61,8 +61,8 @@
             <p id="spec-weight" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">~53 кг</p>
         </div>
         <div style="grid-column: span 2;">
-            <p style="font-size: 0.7rem; color: #64748b; margin: 0; text-transform: uppercase;">Габарити (ДхШхВ)</p>
-            <p id="spec-dims" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">584 x 165 x 250 мм</p>
+            <p style="font-size: 0.7rem; color: #64748b; margin: 0; text-transform: uppercase;">Габарити (ДxШxВ)</p>
+            <p id="spec-dims" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">586 x 178 x 250 мм</p>
         </div>
       </div>
     </div>
@@ -97,10 +97,10 @@ let selectedCapacity = 280;
 let hasDisplay = true;
 
 const batteries = {
-  '24-280': { energy: '7.16 кВт·год', weight: '~52 кг', dims: '586 x 165 x 250 мм', title: '24V 280Ah 7.16кВт' },
-  '24-314': { energy: '8.04 кВт·год', weight: '~54 кг', dims: '586 x 165 x 250 мм', title: '24V 314Ah 8.04кВт' },
-  '12-280': { energy: '3.58 кВт·год', weight: '~27 кг', dims: '295 x 165 x 250 мм', title: '12V 280Ah 3.58кВт' },
-  '12-314': { energy: '4.02 кВт·год', weight: '~28 кг', dims: '295 x 165 x 250 мм', title: '12V 314Ah 4.02кВт' }
+  '24-280': { energy: '7.16 кВт·год', weight: '~52 кг', dims: '586 x 176 x 250 мм', title: '24V 280Ah 7.16кВт' },
+  '24-314': { energy: '8.04 кВт·год', weight: '~54 кг', dims: '586 x 176 x 250 мм', title: '24V 314Ah 8.04кВт' },
+  '12-280': { energy: '3.58 кВт·год', weight: '~27 кг', dims: '295 x 176 x 250 мм', title: '12V 280Ah 3.58кВт' },
+  '12-314': { energy: '4.02 кВт·год', weight: '~28 кг', dims: '295 x 176 x 250 мм', title: '12V 314Ah 4.02кВт' }
 };
 
 function setVoltage(v) { selectedVoltage = v; updateUI(); }
