@@ -1,164 +1,23 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PowerBattery Configurator</title>
-</head>
-<body style="margin: 0; padding: 20px; background: #f4f7fa;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem;">
+  <a href="https://t.me/ВАШ_USERNAME" target="_blank" style="text-decoration: none;">
+    <button style="width: 100%; padding: 0.8rem; background: #229ED9; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      ✈️ Telegram
+    </button>
+  </a>
 
-<div style="padding: 0; font-family: sans-serif; max-width: 600px; margin: auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+  <a href="viber://chat?number=%2B380XXXXXXXXX" style="text-decoration: none;">
+    <button style="width: 100%; padding: 0.8rem; background: #7360f2; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      💜 Viber
+    </button>
+  </a>
+
+  <button onclick="copyToClipboard()" style="grid-column: span 2; padding: 0.8rem; background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-weight: 600;">
+    📋 Скопіювати вибрану конфігурацію
+  </button>
   
-  <div style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: white; padding: 2rem; text-align: center;">
-    <h1 style="font-size: 2rem; margin: 0 0 0.5rem; font-weight: 500;">PowerBattery LiFePO₄</h1>
-    <p style="font-size: 1rem; margin: 0; opacity: 0.9;">Вибір вашої ідеальної батареї</p>
-  </div>
-
-  <div style="padding: 2rem;">
-    <div style="margin-bottom: 2rem;">
-      <p style="font-size: 0.95rem; color: #64748b; margin: 0 0 1rem; text-align: center; font-weight: 500;">Виберіть параметри:</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-        <div>
-          <label style="display: block; font-size: 0.9rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 500;">Напруга</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <button onclick="setVoltage(12)" style="flex: 1; padding: 0.75rem; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 500;" id="btn-12v">12V</button>
-            <button onclick="setVoltage(24)" style="flex: 1; padding: 0.75rem; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 500;" id="btn-24v">24V</button>
-          </div>
-        </div>
-        <div>
-          <label style="display: block; font-size: 0.9rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 500;">Ємність</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <button onclick="setCapacity(280)" style="flex: 1; padding: 0.75rem; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 500;" id="btn-280ah">280 А·год</button>
-            <button onclick="setCapacity(314)" style="flex: 1; padding: 0.75rem; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 500;" id="btn-314ah">314 А·год</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="product-card" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; background: #fafafa;">
-      <div style="text-align: center; margin-bottom: 1.5rem;">
-        <div style="display: inline-flex; width: 80px; height: 110px; background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); border-radius: 8px; margin-bottom: 1rem; align-items: center; justify-content: center; color: white; font-weight: 600; flex-direction: column; line-height: 1.2;">
-          <div id="voltage-display" style="font-size: 1.3rem;">24V</div>
-          <div id="capacity-icon-display" style="font-size: 0.85rem; opacity: 0.8;">280Ah</div>
-        </div>
-        <h2 id="product-title" style="font-size: 1.5rem; margin: 0 0 0.5rem; color: #1e293b;">24V 280Ah 7.16кВт</h2>
-        <p style="margin: 0; color: #64748b; font-size: 0.95rem;">LiFePO₄ з JK BMS</p>
-      </div>
-
-      <div style="background: white; border-radius: 8px; padding: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border: 1px solid #e2e8f0;">
-        <div>
-          <p style="font-size: 0.8rem; color: #64748b; margin: 0 0 2px;">Напруга</p>
-          <p style="font-size: 1rem; color: #1e293b; margin: 0; font-weight: 600;" id="spec-voltage">24В</p>
-        </div>
-        <div>
-          <p style="font-size: 0.8rem; color: #64748b; margin: 0 0 2px;">Ємність</p>
-          <p style="font-size: 1rem; color: #1e293b; margin: 0; font-weight: 600;" id="spec-capacity">280 А·год</p>
-        </div>
-        <div>
-          <p style="font-size: 0.8rem; color: #64748b; margin: 0 0 2px;">Енергія</p>
-          <p style="font-size: 1rem; color: #1e293b; margin: 0; font-weight: 600;" id="spec-energy">7.16 кВт·год</p>
-        </div>
-        <div>
-          <p style="font-size: 0.8rem; color: #64748b; margin: 0 0 2px;">Потужність</p>
-          <p style="font-size: 1rem; color: #1e293b; margin: 0; font-weight: 600;" id="spec-power">7.16 кВт</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <a href="tel:+380XXXXXXXXX" style="grid-column: span 2; text-decoration: none;">
+    <button style="width: 100%; padding: 0.8rem; background: #10b981; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      📞 Подзвонити майстру
+    </button>
+  </a>
 </div>
-
-<script>
-let selectedVoltage = 24;
-let selectedCapacity = 280;
-
-const batteries = {
-  '24-280': {
-    voltage: '24В',
-    capacity: '280 А·год',
-    energy: '7.16 кВт·год',
-    power: '7.16 кВт',
-    title: '24V 280Ah 7.16кВт'
-  },
-  '24-314': {
-    voltage: '24В',
-    capacity: '314 А·год',
-    energy: '8.04 кВт·год',
-    power: '8.04 кВт',
-    title: '24V 314Ah 8.04кВт'
-  },
-  '12-280': {
-    voltage: '12В',
-    capacity: '280 А·год',
-    energy: '3.58 кВт·год',
-    power: '3.58 кВт',
-    title: '12V 280Ah 3.58кВт'
-  },
-  '12-314': {
-    voltage: '12В',
-    capacity: '314 А·год',
-    energy: '4.02 кВт·год',
-    power: '4.02 кВт',
-    title: '12V 314Ah 4.02кВт'
-  }
-};
-
-function setVoltage(v) {
-  selectedVoltage = v;
-  updateUI();
-}
-
-function setCapacity(c) {
-  selectedCapacity = c;
-  updateUI();
-}
-
-function updateUI() {
-  // Update Buttons
-  const vBtns = [12, 24];
-  vBtns.forEach(v => {
-    const btn = document.getElementById(`btn-${v}v`);
-    if (v === selectedVoltage) {
-      btn.style.border = '2px solid #1e40af';
-      btn.style.background = '#eff6ff';
-      btn.style.color = '#1e40af';
-    } else {
-      btn.style.border = '1px solid #e2e8f0';
-      btn.style.background = 'white';
-      btn.style.color = '#1e293b';
-    }
-  });
-
-  const cBtns = [280, 314];
-  cBtns.forEach(c => {
-    const btn = document.getElementById(`btn-${c}ah`);
-    if (c === selectedCapacity) {
-      btn.style.border = '2px solid #1e40af';
-      btn.style.background = '#eff6ff';
-      btn.style.color = '#1e40af';
-    } else {
-      btn.style.border = '1px solid #e2e8f0';
-      btn.style.background = 'white';
-      btn.style.color = '#1e293b';
-    }
-  });
-
-  // Update Display Content
-  const key = `${selectedVoltage}-${selectedCapacity}`;
-  const data = batteries[key];
-
-  document.getElementById('voltage-display').textContent = selectedVoltage + 'V';
-  document.getElementById('capacity-icon-display').textContent = selectedCapacity + 'Ah';
-  document.getElementById('product-title').textContent = data.title;
-  
-  document.getElementById('spec-voltage').textContent = data.voltage;
-  document.getElementById('spec-capacity').textContent = data.capacity;
-  document.getElementById('spec-energy').textContent = data.energy;
-  document.getElementById('spec-power').textContent = data.power;
-}
-
-// Initial Call
-updateUI();
-</script>
-
-</body>
-</html>
