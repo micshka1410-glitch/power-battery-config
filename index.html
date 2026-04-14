@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PowerBattery Configurator</title>
     <style>
-        .header-link:hover { opacity: 0.9; }
+        .header-link:hover { opacity: 0.9; cursor: pointer; }
         button { transition: all 0.2s ease; }
-        /* Стилі для модального вікна */
+        
+        /* Стилі для модальних вікон (BMS та Фото) */
         .modal {
             display: none;
             position: fixed;
             z-index: 2000;
             left: 0; top: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.8);
             align-items: center; justify-content: center;
         }
         .modal-content {
@@ -25,9 +26,21 @@
             width: 400px;
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
+        /* Стиль для великого фото */
+        .modal-image {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 20px; background: #f4f7fa; font-family: sans-serif;">
+
+<div id="imageModal" class="modal" onclick="closeImage()">
+    <img src="photo_2026-03-12_12-18-23.jpg" class="modal-image" alt="PowerBattery Full View">
+    <div style="position: absolute; top: 20px; right: 20px; color: white; font-size: 30px; cursor: pointer;">&times;</div>
+</div>
 
 <div id="bmsModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -43,14 +56,15 @@
 
 <div style="max-width: 600px; margin: auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
   
-  <a href="photo_2026-03-12_12-18-23.jpg" target="_blank" class="header-link" style="text-decoration: none; display: block; position: relative; height: 220px; background: url('photo_2026-03-12_12-18-23.jpg') center/cover no-repeat;">
+  <div onclick="openImage()" class="header-link" style="position: relative; height: 220px; background: url('photo_2026-03-12_12-18-23.jpg') center/cover no-repeat;">
     <div style="width: 100%; height: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.85)); display: flex; align-items: flex-end;">
       <div style="width: 100%; color: white; padding: 1.5rem 2rem; text-align: center;">
         <h1 style="font-size: 1.8rem; margin: 0; font-weight: 600;">PowerBattery LiFePO₄</h1>
         <p style="font-size: 0.9rem; margin: 5px 0 0; opacity: 0.9;">Нержавіючий корпус | JK BMS Active Balancer</p>
+        <p style="font-size: 0.7rem; margin: 8px 0 0; opacity: 0.6;">🔍 Натисніть, щоб збільшити</p>
       </div>
     </div>
-  </a>
+  </div>
 
   <div style="padding: 1.5rem 2rem;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
@@ -72,7 +86,7 @@
 
     <div style="margin-bottom: 1rem;">
         <label onclick="openModal()" style="display: inline-block; font-size: 0.75rem; color: #3b82f6; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; cursor: help; border-bottom: 1px dashed #3b82f6;">
-            Модель BMS JK (натисніть для інфо)
+            Модель BMS JK (інфо)
         </label>
         <div style="display: flex; gap: 0.4rem;">
             <button onclick="setBms('B1A8S20P')" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;" id="btn-bms-1a">B1A8S20P (1A)</button>
@@ -150,14 +164,17 @@ function setCapacity(c) { selectedCapacity = c; updateUI(); }
 function setBms(type) { selectedBms = type; updateUI(); }
 function setDisplay(bool) { hasDisplay = bool; updateUI(); }
 
+// Функції для модалок
 function openModal() { document.getElementById('bmsModal').style.display = 'flex'; }
 function closeModal() { document.getElementById('bmsModal').style.display = 'none'; }
+
+function openImage() { document.getElementById('imageModal').style.display = 'flex'; }
+function closeImage() { document.getElementById('imageModal').style.display = 'none'; }
 
 function updateUI() {
   const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
   if (!data) return;
 
-  // Buttons Highlights
   document.getElementById('btn-12v').style.background = selectedVoltage === 12 ? '#eff6ff' : 'white';
   document.getElementById('btn-12v').style.border = selectedVoltage === 12 ? '2px solid #1e40af' : '1px solid #e2e8f0';
   document.getElementById('btn-24v').style.background = selectedVoltage === 24 ? '#eff6ff' : 'white';
@@ -178,7 +195,6 @@ function updateUI() {
   document.getElementById('btn-disp-no').style.background = !hasDisplay ? '#eff6ff' : 'white';
   document.getElementById('btn-disp-no').style.border = !hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
 
-  // Text Updates
   document.getElementById('product-title').textContent = data.title;
   const dispText = hasDisplay ? "З дисплеєм" : "Без дисплея";
   document.getElementById('product-status').textContent = `${selectedBms} | ${dispText}`;
