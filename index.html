@@ -1,24 +1,209 @@
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-    <div>
-        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Довжина кабелю</label>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerBattery Configurator</title>
+    <style>
+        .header-link:hover { opacity: 0.9; cursor: pointer; }
+        button { transition: all 0.2s ease; outline: none; }
+        
+        /* Модальні вікна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.1);
+        }
+        .modal-image {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 20px; background: #f4f7fa; font-family: sans-serif;">
+
+<div id="imageModal" class="modal" onclick="closeImage()">
+    <img src="photo_2026-03-12_12-18-23.jpg" class="modal-image">
+    <div style="position: absolute; top: 20px; right: 20px; color: white; font-size: 35px; cursor: pointer;">&times;</div>
+</div>
+
+<div id="bmsModal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3 style="margin-top: 0; color: #1e40af;">Характеристики JK BMS</h3>
+        <p style="font-size: 0.95rem; line-height: 1.5; color: #334155;">
+            <strong>Струм балансування:</strong> 1A (B1A8S20P) або 2А (B2A8S20P).<br><br>
+            <strong>Струм постійного розряду:</strong> 200A.<br><br>
+            <strong>Піковий розряд:</strong> до 350А (до 2 хв).
+        </p>
+        <button onclick="closeModal()" style="width: 100%; padding: 0.7rem; background: #1e40af; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Закрити</button>
+    </div>
+</div>
+
+<div style="max-width: 600px; margin: auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+  
+  <div onclick="openImage()" class="header-link" style="position: relative; height: 220px; background: url('photo_2026-03-12_12-18-23.jpg') center/cover no-repeat;">
+    <div style="width: 100%; height: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.85)); display: flex; align-items: flex-end;">
+      <div style="width: 100%; color: white; padding: 1.5rem 2rem; text-align: center;">
+        <h1 style="font-size: 1.8rem; margin: 0; font-weight: 600;">PowerBattery LiFePO₄</h1>
+        <p style="font-size: 0.9rem; margin: 5px 0 0; opacity: 0.9;">Нержавіючий корпус | JK BMS Active Balancer</p>
+        <p style="font-size: 0.7rem; margin: 8px 0 0; opacity: 0.6;">🔍 Натисніть на фото, щоб збільшити</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 1.5rem 2rem;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div>
+        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Напруга</label>
         <div style="display: flex; gap: 0.4rem;">
-            <button onclick="setCableLength(0.5)" style="flex: 1; padding: 0.6rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;" id="btn-len-05">0.5м</button>
-            <button onclick="setCableLength(1)" style="flex: 1; padding: 0.6rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;" id="btn-len-1">1м</button>
-            <button onclick="setCableLength(1.5)" style="flex: 1; padding: 0.6rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;" id="btn-len-15">1.5м</button>
+          <button onclick="setVoltage(12)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-12v">12V</button>
+          <button onclick="setVoltage(24)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-24v">24V</button>
+        </div>
+      </div>
+      <div>
+        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Ємність</label>
+        <div style="display: flex; gap: 0.4rem;">
+          <button onclick="setCapacity(280)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-280ah">280 А·год</button>
+          <button onclick="setCapacity(314)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-314ah">314 А·год</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div>
+        <label onclick="openModal()" style="display: inline-block; font-size: 0.75rem; color: #3b82f6; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; cursor: help; border-bottom: 1px dashed #3b82f6;">BMS JK (інфо)</label>
+        <div style="display: flex; gap: 0.4rem;">
+            <button onclick="setBms('B1A8S20P')" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem;" id="btn-bms-1a">1A</button>
+            <button onclick="setBms('B2A8S20P')" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem;" id="btn-bms-2a">2A</button>
+        </div>
+      </div>
+      <div>
+        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Дисплей</label>
+        <div style="display: flex; gap: 0.4rem;">
+            <button onclick="setDisplay(true)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem;" id="btn-disp-yes">Так</button>
+            <button onclick="setDisplay(false)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem;" id="btn-disp-no">Ні</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+            <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Кабель</label>
+            <div style="display: flex; gap: 0.3rem;">
+                <button onclick="setLen(0.5)" style="flex: 1; padding: 0.6rem 0; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.75rem;" id="btn-len-05">0.5м</button>
+                <button onclick="setLen(1)" style="flex: 1; padding: 0.6rem 0; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.75rem;" id="btn-len-1">1м</button>
+                <button onclick="setLen(1.5)" style="flex: 1; padding: 0.6rem 0; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.75rem;" id="btn-len-15">1.5м</button>
+            </div>
+        </div>
+        <div>
+            <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Тип клеми</label>
+            <div style="display: flex; gap: 0.4rem;">
+                <button onclick="setTerm('Кільце')" style="flex: 1; padding: 0.4rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; flex-direction: column; align-items: center;" id="btn-term-ring">
+                    <span style="font-size: 1rem;">⭕</span><span style="font-size: 0.65rem;">Кільце</span>
+                </button>
+                <button onclick="setTerm('Штифт')" style="flex: 1; padding: 0.4rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; flex-direction: column; align-items: center;" id="btn-term-pin">
+                    <span style="font-size: 1rem;">📍</span><span style="font-size: 0.65rem;">Штифт</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <div>
-        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Тип клеми</label>
-        <div style="display: flex; gap: 0.4rem;">
-            <button onclick="setTerminal('Кільце (під гайку)')" style="flex: 1; padding: 0.6rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center;" id="btn-term-ring">
-                <span style="font-size: 1.2rem;">⭕</span>
-                <span style="font-size: 0.7rem;">Кільце</span>
-            </button>
-            <button onclick="setTerminal('Штифт (штирь)')" style="flex: 1; padding: 0.6rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center;" id="btn-term-pin">
-                <span style="font-size: 1.2rem;">📍</span>
-                <span style="font-size: 0.7rem;">Штифт</span>
-            </button>
-        </div>
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem;">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <h2 id="product-title" style="font-size: 1.4rem; margin: 0; color: #0f172a; font-weight: 700;">24V 280Ah 7.16кВт</h2>
+        <p id="product-status" style="margin: 0.3rem 0 0; color: #3b82f6; font-weight: 600; font-size: 0.85rem;">Завантаження...</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; background: white; padding: 0.8rem; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div><p style="font-size: 0.65rem; color: #64748b; margin: 0; text-transform: uppercase;">Енергія</p><p id="spec-energy" style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #1e293b;">-</p></div>
+        <div><p style="font-size: 0.65rem; color: #64748b; margin: 0; text-transform: uppercase;">Вага</p><p id="spec-weight" style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #1e293b;">-</p></div>
+        <div style="grid-column: span 2;"><p style="font-size: 0.65rem; color: #64748b; margin: 0; text-transform: uppercase;">Габарити (ДxШxВ)</p><p id="spec-dims" style="font-size: 0.95rem; font-weight: 700; margin: 0; color: #1e293b;">-</p></div>
+      </div>
     </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+      <a href="https://t.me/MischkaCV" target="_blank" style="text-decoration: none;"><button style="width: 100%; padding: 0.9rem; background: #229ED9; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">✈️ Telegram</button></a>
+      <a href="viber://chat?number=%2B380995078362" style="text-decoration: none;"><button style="width: 100%; padding: 0.9rem; background: #7360f2; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">💜 Viber</button></a>
+      <button onclick="copyToClipboard()" style="grid-column: span 2; padding: 0.9rem; background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-weight: 600;">📋 Скопіювати замовлення</button>
+    </div>
+  </div>
 </div>
+
+<div id="toast" style="display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 0.9rem; z-index: 1000;">Скопійовано!</div>
+
+<script>
+let selectedVoltage = 24;
+let selectedCapacity = 280;
+let selectedBms = 'B1A8S20P';
+let hasDisplay = true;
+let selectedLen = 1;
+let selectedTerm = 'Кільце';
+
+const batteries = {
+  '24-280': { energy: '7.16 кВт·год', weight: '~52 кг', dims: '586 x 176 x 250 мм', title: '24V 280Ah 7.16кВт' },
+  '24-314': { energy: '8.04 кВт·год', weight: '~54 кг', dims: '586 x 176 x 250 мм', title: '24V 314Ah 8.04кВт' },
+  '12-280': { energy: '3.58 кВт·год', weight: '~27 кг', dims: '295 x 176 x 250 мм', title: '12V 280Ah 3.58кВт' },
+  '12-314': { energy: '4.02 кВт·год', weight: '~28 кг', dims: '295 x 176 x 250 мм', title: '12V 314Ah 4.02кВт' }
+};
+
+function setVoltage(v) { selectedVoltage = v; updateUI(); }
+function setCapacity(c) { selectedCapacity = c; updateUI(); }
+function setBms(b) { selectedBms = b; updateUI(); }
+function setDisplay(d) { hasDisplay = d; updateUI(); }
+function setLen(l) { selectedLen = l; updateUI(); }
+function setTerm(t) { selectedTerm = t; updateUI(); }
+
+function openModal() { document.getElementById('bmsModal').style.display = 'flex'; }
+function closeModal() { document.getElementById('bmsModal').style.display = 'none'; }
+function openImage() { document.getElementById('imageModal').style.display = 'flex'; }
+function closeImage() { document.getElementById('imageModal').style.display = 'none'; }
+
+function updateUI() {
+  const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
+  
+  // Highlights
+  const highlight = (id, condition) => {
+    const el = document.getElementById(id);
+    el.style.background = condition ? '#eff6ff' : 'white';
+    el.style.border = condition ? '2px solid #1e40af' : '1px solid #e2e8f0';
+  };
+
+  highlight('btn-12v', selectedVoltage === 12); highlight('btn-24v', selectedVoltage === 24);
+  highlight('btn-280ah', selectedCapacity === 280); highlight('btn-314ah', selectedCapacity === 314);
+  highlight('btn-bms-1a', selectedBms === 'B1A8S20P'); highlight('btn-bms-2a', selectedBms === 'B2A8S20P');
+  highlight('btn-disp-yes', hasDisplay); highlight('btn-disp-no', !hasDisplay);
+  highlight('btn-len-05', selectedLen === 0.5); highlight('btn-len-1', selectedLen === 1); highlight('btn-len-15', selectedLen === 1.5);
+  highlight('btn-term-ring', selectedTerm === 'Кільце'); highlight('btn-term-pin', selectedTerm === 'Штифт');
+
+  document.getElementById('product-title').textContent = data.title;
+  document.getElementById('product-status').textContent = `${selectedBms} | ${hasDisplay?'З дисплеєм':'Без дисплея'} | Кабель ${selectedLen}м (${selectedTerm})`;
+  document.getElementById('spec-energy').textContent = data.energy;
+  document.getElementById('spec-weight').textContent = data.weight;
+  document.getElementById('spec-dims').textContent = data.dims;
+}
+
+function copyToClipboard() {
+  const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
+  const text = `Замовлення: ${data.title}, BMS ${selectedBms}, ${hasDisplay?'з дисплеєм':'без дисплея'}, Кабель ${selectedLen}м, Клема: ${selectedTerm}.`;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast'); t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2000);
+  });
+}
+
+updateUI();
+</script>
+</body>
+</html>
