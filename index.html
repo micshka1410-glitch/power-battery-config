@@ -4,23 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PowerBattery Configurator</title>
+    <style>
+        .header-link:hover { opacity: 0.9; }
+        button { transition: all 0.2s ease; }
+        /* Стилі для модального вікна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body style="margin: 0; padding: 20px; background: #f4f7fa; font-family: sans-serif;">
 
+<div id="bmsModal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3 style="margin-top: 0; color: #1e40af;">Характеристики JK BMS</h3>
+        <p style="font-size: 0.95rem; line-height: 1.5; color: #334155;">
+            <strong>Струм балансування:</strong> 1A (B1A8S20P) або 2А (B2A8S20P).<br><br>
+            <strong>Струм постійного розряду:</strong> 200A.<br><br>
+            <strong>Піковий розряд:</strong> до 350А (до 2 хв).
+        </p>
+        <button onclick="closeModal()" style="width: 100%; padding: 0.7rem; background: #1e40af; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Зрозуміло</button>
+    </div>
+</div>
+
 <div style="max-width: 600px; margin: auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
   
-  <a href="photo_2026-03-12_12-18-23.jpg" target="_blank" style="text-decoration: none; display: block; position: relative; height: 220px; background: url('photo_2026-03-12_12-18-23.jpg') center/cover no-repeat;">
+  <a href="photo_2026-03-12_12-18-23.jpg" target="_blank" class="header-link" style="text-decoration: none; display: block; position: relative; height: 220px; background: url('photo_2026-03-12_12-18-23.jpg') center/cover no-repeat;">
     <div style="width: 100%; height: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.85)); display: flex; align-items: flex-end;">
       <div style="width: 100%; color: white; padding: 1.5rem 2rem; text-align: center;">
         <h1 style="font-size: 1.8rem; margin: 0; font-weight: 600;">PowerBattery LiFePO₄</h1>
-        <p style="font-size: 0.9rem; margin: 5px 0 0; opacity: 0.9;">Збірки в нержавіючому корпусі з JK BMS</p>
-        <p style="font-size: 0.7rem; margin: 8px 0 0; opacity: 0.6;">🔍 Натисніть, щоб переглянути фото</p>
+        <p style="font-size: 0.9rem; margin: 5px 0 0; opacity: 0.9;">Нержавіючий корпус | JK BMS Active Balancer</p>
       </div>
     </div>
   </a>
 
   <div style="padding: 1.5rem 2rem;">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
       <div>
         <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Напруга</label>
         <div style="display: flex; gap: 0.4rem;">
@@ -37,18 +70,28 @@
       </div>
     </div>
 
+    <div style="margin-bottom: 1rem;">
+        <label onclick="openModal()" style="display: inline-block; font-size: 0.75rem; color: #3b82f6; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; cursor: help; border-bottom: 1px dashed #3b82f6;">
+            Модель BMS JK (натисніть для інфо)
+        </label>
+        <div style="display: flex; gap: 0.4rem;">
+            <button onclick="setBms('B1A8S20P')" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;" id="btn-bms-1a">B1A8S20P (1A)</button>
+            <button onclick="setBms('B2A8S20P')" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;" id="btn-bms-2a">B2A8S20P (2A)</button>
+        </div>
+    </div>
+
     <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Опція дисплея</label>
+        <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase;">Дисплей</label>
         <div style="display: flex; gap: 0.4rem;">
             <button onclick="setDisplay(true)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-disp-yes">З дисплеєм</button>
             <button onclick="setDisplay(false)" style="flex: 1; padding: 0.7rem; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-weight: 600;" id="btn-disp-no">Без дисплея</button>
         </div>
     </div>
 
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-      <div style="text-align: center; margin-bottom: 1.2rem;">
-        <h2 id="product-title" style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 700;">24V 280Ah 7.16кВт</h2>
-        <p id="product-status" style="margin: 0.3rem 0 0; color: #3b82f6; font-weight: 600; font-size: 0.85rem;">З вбудованим дисплеєм</p>
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem;">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <h2 id="product-title" style="font-size: 1.4rem; margin: 0; color: #0f172a; font-weight: 700;">24V 280Ah 7.16кВт</h2>
+        <p id="product-status" style="margin: 0.3rem 0 0; color: #3b82f6; font-weight: 600; font-size: 0.85rem;">B1A8S20P | З дисплеєм</p>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; background: white; padding: 1rem; border-radius: 10px; border: 1px solid #e2e8f0;">
@@ -58,11 +101,11 @@
         </div>
         <div>
             <p style="font-size: 0.7rem; color: #64748b; margin: 0; text-transform: uppercase;">Вага</p>
-            <p id="spec-weight" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">~53 кг</p>
+            <p id="spec-weight" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">~52 кг</p>
         </div>
         <div style="grid-column: span 2;">
             <p style="font-size: 0.7rem; color: #64748b; margin: 0; text-transform: uppercase;">Габарити (ДxШxВ)</p>
-            <p id="spec-dims" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">586 x 178 x 250 мм</p>
+            <p id="spec-dims" style="font-size: 1rem; font-weight: 700; margin: 0; color: #1e293b;">586 x 176 x 250 мм</p>
         </div>
       </div>
     </div>
@@ -73,13 +116,11 @@
           ✈️ Telegram
         </button>
       </a>
-
       <a href="viber://chat?number=%2B380995078362" style="text-decoration: none;">
         <button style="width: 100%; padding: 0.9rem; background: #7360f2; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
           💜 Viber
         </button>
       </a>
-
       <button onclick="copyToClipboard()" style="grid-column: span 2; padding: 0.9rem; background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-weight: 600;">
         📋 Скопіювати замовлення
       </button>
@@ -94,6 +135,7 @@
 <script>
 let selectedVoltage = 24;
 let selectedCapacity = 280;
+let selectedBms = 'B1A8S20P';
 let hasDisplay = true;
 
 const batteries = {
@@ -105,32 +147,41 @@ const batteries = {
 
 function setVoltage(v) { selectedVoltage = v; updateUI(); }
 function setCapacity(c) { selectedCapacity = c; updateUI(); }
+function setBms(type) { selectedBms = type; updateUI(); }
 function setDisplay(bool) { hasDisplay = bool; updateUI(); }
 
+function openModal() { document.getElementById('bmsModal').style.display = 'flex'; }
+function closeModal() { document.getElementById('bmsModal').style.display = 'none'; }
+
 function updateUI() {
-  [12, 24].forEach(v => {
-    const btn = document.getElementById(`btn-${v}v`);
-    btn.style.border = v === selectedVoltage ? '2px solid #1e40af' : '1px solid #e2e8f0';
-    btn.style.background = v === selectedVoltage ? '#eff6ff' : 'white';
-    btn.style.color = v === selectedVoltage ? '#1e40af' : '#1e293b';
-  });
-
-  [280, 314].forEach(c => {
-    const btn = document.getElementById(`btn-${c}ah`);
-    btn.style.border = c === selectedCapacity ? '2px solid #1e40af' : '1px solid #e2e8f0';
-    btn.style.background = c === selectedCapacity ? '#eff6ff' : 'white';
-    btn.style.color = c === selectedCapacity ? '#1e40af' : '#1e293b';
-  });
-
-  document.getElementById('btn-disp-yes').style.border = hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
-  document.getElementById('btn-disp-yes').style.background = hasDisplay ? '#eff6ff' : 'white';
-  document.getElementById('btn-disp-no').style.border = !hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
-  document.getElementById('btn-disp-no').style.background = !hasDisplay ? '#eff6ff' : 'white';
-
   const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
+  if (!data) return;
+
+  // Buttons Highlights
+  document.getElementById('btn-12v').style.background = selectedVoltage === 12 ? '#eff6ff' : 'white';
+  document.getElementById('btn-12v').style.border = selectedVoltage === 12 ? '2px solid #1e40af' : '1px solid #e2e8f0';
+  document.getElementById('btn-24v').style.background = selectedVoltage === 24 ? '#eff6ff' : 'white';
+  document.getElementById('btn-24v').style.border = selectedVoltage === 24 ? '2px solid #1e40af' : '1px solid #e2e8f0';
+
+  document.getElementById('btn-280ah').style.background = selectedCapacity === 280 ? '#eff6ff' : 'white';
+  document.getElementById('btn-280ah').style.border = selectedCapacity === 280 ? '2px solid #1e40af' : '1px solid #e2e8f0';
+  document.getElementById('btn-314ah').style.background = selectedCapacity === 314 ? '#eff6ff' : 'white';
+  document.getElementById('btn-314ah').style.border = selectedCapacity === 314 ? '2px solid #1e40af' : '1px solid #e2e8f0';
+
+  document.getElementById('btn-bms-1a').style.background = selectedBms === 'B1A8S20P' ? '#eff6ff' : 'white';
+  document.getElementById('btn-bms-1a').style.border = selectedBms === 'B1A8S20P' ? '2px solid #1e40af' : '1px solid #e2e8f0';
+  document.getElementById('btn-bms-2a').style.background = selectedBms === 'B2A8S20P' ? '#eff6ff' : 'white';
+  document.getElementById('btn-bms-2a').style.border = selectedBms === 'B2A8S20P' ? '2px solid #1e40af' : '1px solid #e2e8f0';
+
+  document.getElementById('btn-disp-yes').style.background = hasDisplay ? '#eff6ff' : 'white';
+  document.getElementById('btn-disp-yes').style.border = hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
+  document.getElementById('btn-disp-no').style.background = !hasDisplay ? '#eff6ff' : 'white';
+  document.getElementById('btn-disp-no').style.border = !hasDisplay ? '2px solid #1e40af' : '1px solid #e2e8f0';
+
+  // Text Updates
   document.getElementById('product-title').textContent = data.title;
-  document.getElementById('product-status').textContent = hasDisplay ? 'З вбудованим дисплеєм' : 'Без дисплея (керування через додаток)';
-  document.getElementById('product-status').style.color = hasDisplay ? '#3b82f6' : '#64748b';
+  const dispText = hasDisplay ? "З дисплеєм" : "Без дисплея";
+  document.getElementById('product-status').textContent = `${selectedBms} | ${dispText}`;
   
   document.getElementById('spec-energy').textContent = data.energy;
   document.getElementById('spec-weight').textContent = data.weight;
@@ -140,7 +191,7 @@ function updateUI() {
 function copyToClipboard() {
   const data = batteries[`${selectedVoltage}-${selectedCapacity}`];
   const disp = hasDisplay ? "з дисплеєм" : "без дисплея";
-  const text = `Вітаю! Мене цікавить: ${data.title}, ${disp}. Енергія: ${data.energy}. Вага: ${data.weight}.`;
+  const text = `Вітаю! Мене цікавить: ${data.title}, BMS ${selectedBms}, ${disp}. Енергія: ${data.energy}. Вага: ${data.weight}.`;
   navigator.clipboard.writeText(text).then(() => {
     const toast = document.getElementById('toast');
     toast.style.display = 'block';
