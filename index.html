@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PowerBattery Configurator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         .header-link:hover { opacity: 0.9; cursor: pointer; }
         button { transition: all 0.2s ease; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -145,6 +146,14 @@
       <a href="viber://chat?number=%2B380995078362" style="text-decoration: none;"><button style="width: 100%; padding: 0.9rem; background: #7360f2; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 0.9rem;">💜 Viber</button></a>
       <button onclick="copyToClipboard()" style="grid-column: span 2; padding: 1rem; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 0.95rem;">📋 Скопіювати замовлення</button>
     </div>
+
+    <div style="margin-top: 2rem; border-top: 1px solid #f1f5f9; padding-top: 1.5rem; text-align: center;">
+        <p style="font-size: 0.7rem; color: #64748b; margin: 0 0 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Поділитися цим сайтом</p>
+        <div style="display: flex; justify-content: center;">
+            <div id="qrcode" style="padding: 10px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);"></div>
+        </div>
+    </div>
+
   </div>
 </div>
 
@@ -225,6 +234,18 @@ function copyToClipboard() {
     setTimeout(() => t.style.display = 'none', 2500);
   });
 }
+
+// ГЕНЕРАЦІЯ QR-КОДУ ПРИ ЗАВАНТАЖЕННІ
+window.addEventListener('load', () => {
+    new QRCode(document.getElementById("qrcode"), {
+        text: window.location.href, // Бере поточне посилання на Vercel
+        width: 110,
+        height: 110,
+        colorDark : "#0f172a",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+});
 
 updateUI();
 </script>
